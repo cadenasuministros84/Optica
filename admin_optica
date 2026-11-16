@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ERP Óptica Visión HD | Control Administrativo, Ventas, Clínica y Contabilidad</title>
+  <style>
+    :root {
+      --primary: #0f294a;
+      --primary-light: #1e4273;
+      --accent: #008080;
+      --accent-light: #e6fffa;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 12px rgba(15, 41, 74, 0.06);
+      --radius: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+    .sidebar { width: 265px; background: var(--primary); color: #fff; display: flex; flex-direction: column; flex-shrink: 0; }
+    .sidebar-brand { padding: 20px; font-size: 1.25rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; }
+    .sidebar-brand span { color: #38bdf8; }
+
+    .store-link-box { padding: 12px 20px; background: rgba(0,128,128,0.28); border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .store-link-box a {
+      display: block; text-align: center; background: #008080; color: #fff; text-decoration: none;
+      padding: 8px 12px; border-radius: 6px; font-weight: 700; font-size: 0.85rem;
+    }
+    .store-link-box a:hover { background: #006666; }
+
+    .user-role-box { padding: 14px 20px; background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; }
+    .user-role-box select { width: 100%; margin-top: 6px; padding: 6px; border-radius: 6px; border: none; font-weight: 600; background: #fff; color: var(--primary); }
+
+    .nav-menu { list-style: none; padding: 14px 0; flex: 1; }
+    .nav-item {
+      padding: 12px 20px; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.91rem; color: #cbd5e1; transition: all 0.2s; border-left: 4px solid transparent;
+    }
+    .nav-item:hover, .nav-item.active { background: var(--primary-light); color: #fff; border-left-color: #38bdf8; font-weight: 600; }
+    .nav-badge { background: #ef4444; color: #fff; font-size: 0.72rem; padding: 2px 7px; border-radius: 10px; font-weight: 800; }
+
+    .sidebar-footer { padding: 14px 20px; font-size: 0.78rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.1); }
+
+    .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow-x: hidden; }
+    .topbar { background: #fff; padding: 14px 24px; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; z-index: 10; }
+    .topbar-title { font-size: 1.18rem; font-weight: 700; color: var(--primary); }
+    .topbar-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .rate-pill {
+      background: var(--accent-light); color: var(--accent); padding: 6px 12px; border-radius: 20px;
+      font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 6px; border: 1px solid #99f6e4;
+    }
+    .rate-pill input { width: 65px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: 700; text-align: right; }
+
+    .content-area { padding: 24px; max-width: 1440px; width: 100%; margin: 0 auto; }
+    .module-section { display: none; }
+    .module-section.active { display: block; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 24px; }
+    .kpi-card { background: var(--card); padding: 18px; border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid var(--primary); }
+    .kpi-card.accent { border-left-color: var(--accent); }
+    .kpi-card.success { border-left-color: var(--success); }
+    .kpi-card.warning { border-left-color: var(--warning); }
+    .kpi-label { font-size: 0.82rem; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+    .kpi-value { font-size: 1.65rem; font-weight: 800; color: var(--text); margin: 6px 0; }
+    .kpi-sub { font-size: 0.8rem; color: var(--muted); }
+
+    .panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 24px; }
+    .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
+    .panel-header h3 { color: var(--primary); font-size: 1.05rem; }
+
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group label { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+    .form-group input, .form-group select { padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.88rem; background: #fff; }
+
+    .btn { padding: 8px 14px; border: none; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .btn:hover { opacity: 0.9; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-accent { background: var(--accent); color: #fff; }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--text); }
+
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+    th { background: #f8fafc; color: var(--primary); font-weight: 700; text-align: left; padding: 11px 12px; border-bottom: 2px solid var(--border); white-space: nowrap; }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:hover td { background: #f8fafc; }
+
+    .badge { padding: 3px 8px; border-radius: 12px; font-size: 0.74rem; font-weight: 700; display: inline-block; }
+    .badge-green { background: #dcfce7; color: #166534; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-amber { background: #fef3c7; color: #92400e; }
+    .badge-red { background: #fee2e2; color: #991b1b; }
+    .badge-purple { background: #f3e8ff; color: #6b21a8; }
+
+    .rx-mini-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 14px; }
+    .rx-eye-box h4 { font-size: 0.85rem; color: var(--primary); margin-bottom: 8px; }
+    .rx-inputs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .rx-inputs input { width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.82rem; }
+
+    .info-banner { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e3a8a; padding: 12px 16px; border-radius: 8px; font-size: 0.88rem; margin-bottom: 18px; }
+
+    @media (max-width: 850px) {
+      body { flex-direction: column; }
+      .sidebar { width: 100%; }
+      .nav-menu { display: flex; overflow-x: auto; padding: 6px; }
+      .nav-item { white-space: nowrap; border-left: none; border-bottom: 3px solid transparent; }
+      .nav-item.active { border-bottom-color: #38bdf8; }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">🏛️ ERP <span>ÓPTICA HD</span></div>
+
+    <div class="store-link-box">
+      <a href="index.html" target="_blank">👓 Abrir Tienda Web (index.html) ↗</a>
+    </div>
+
+    <div class="user-role-box">
+      <label>Sesión Activa (Rol de Usuario):</label>
+      <select id="activeUserRole" onchange="applyRolePermissions()">
+        <option value="Administrador">👑 Administrador General</option>
+        <option value="Optometrista">🩺 Optometrista / Especialista</option>
+        <option value="Asesor_Ventas">💼 Asesor de Ventas / Caja</option>
+        <option value="Taller_Lab">⚙️ Jefe de Taller / Laboratorio</option>
+        <option value="Contador">📊 Contador / Administración</option>
+      </select>
+    </div>
+
+    <ul class="nav-menu">
+      <li class="nav-item active" onclick="switchModule('dashboard', this)"><span>📊 Dashboard y Contabilidad</span></li>
+      <li class="nav-item" onclick="switchModule('weborders', this)">
+        <span>🌐 Pedidos Recibidos Web</span>
+        <span class="nav-badge" id="webOrdersBadge">0</span>
+      </li>
+      <li class="nav-item" onclick="switchModule('inventario', this)"><span>📦 Inventario Sincronizado</span></li>
+      <li class="nav-item" onclick="switchModule('ventas', this)"><span>🧾 Ventas y Productos Vendidos</span></li>
+      <li class="nav-item" onclick="switchModule('pacientes', this)"><span>🩺 Ficha Clínica de Pacientes</span></li>
+      <li class="nav-item" onclick="switchModule('clientes', this)"><span>👥 Clientes y Facturación</span></li>
+      <li class="nav-item" onclick="switchModule('staff', this)"><span>👨‍⚕️ Médicos, Especialistas y Staff</span></li>
+      <li class="nav-item" onclick="switchModule('usuarios', this)"><span>🔐 Usuarios y Permisos</span></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div>Enlazado con index.html</div>
+      <div>Sync: localStorage + Respaldo JSON</div>
+    </div>
+  </aside>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <div class="topbar-title" id="moduleTitle">Dashboard Administrativo y Control Contable</div>
+      <div class="topbar-controls">
+        <div class="rate-pill">
+          <span>Tasa Sincronizada:</span>
+          <input type="number" id="bcvRate" value="45.50" step="0.10" onchange="syncRateFromAdmin()" />
+          <span>Bs./USD</span>
+        </div>
+        <button class="btn btn-outline" onclick="exportAllJSON()">⬇️ Descargar Respaldo (.json)</button>
+        <label class="btn btn-outline" style="cursor:pointer;">
+          ⬆️ Restaurar (.json)
+          <input type="file" accept=".json" style="display:none;" onchange="importAllJSON(event)" />
+        </label>
+      </div>
+    </header>
+
+    <div class="content-area">
+
+      <!-- =================================================================== -->
+      <!-- MÓDULO 1: DASHBOARD Y CONTROL CONTABLE                              -->
+      <!-- =================================================================== -->
+      <section id="mod-dashboard" class="module-section active">
+        <div class="kpi-grid">
+          <div class="kpi-card success">
+            <div class="kpi-label">Ingresos Brutos (Ventas)</div>
+            <div class="kpi-value" id="kpiSalesUsd">$0.00</div>
+            <div class="kpi-sub" id="kpiSalesBs">0.00 Bs.</div>
+          </div>
+          <div class="kpi-card warning">
+            <div class="kpi-label">Costo de Mercancía Vendida</div>
+            <div class="kpi-value" id="kpiCostUsd">$0.00</div>
+            <div class="kpi-sub">Costo directo de monturas y lunas</div>
+          </div>
+          <div class="kpi-card accent">
+            <div class="kpi-label">Utilidad Neta Estimada</div>
+            <div class="kpi-value" id="kpiProfitUsd">$0.00</div>
+            <div class="kpi-sub" id="kpiMarginPct">Margen: 0%</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Pedidos Web Pendientes</div>
+            <div class="kpi-value" id="kpiWebPending">0</div>
+            <div class="kpi-sub" id="kpiPatientsCount">0 fichas clínicas activas</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>📒 Libro Contable de Operaciones (Ingresos, Egresos y Métodos de Pago)</h3>
+            <button class="btn btn-accent" onclick="exportTableCSV('tablaContable', 'Libro_Contable_Optica.csv')">Exportar CSV / Excel</button>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Tipo Movimiento</label>
+              <select id="accType">
+                <option value="Ingreso">Ingreso (Venta / Consulta)</option>
+                <option value="Egreso">Egreso (Pago Laboratorio / Gasto)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Concepto / Descripción</label>
+              <input type="text" id="accDesc" placeholder="Ej: Pago a Laboratorio Tallado o Venta #004" />
+            </div>
+            <div class="form-group">
+              <label>Método de Pago</label>
+              <select id="accMethod">
+                <option value="Divisas Efectivo ($)">Divisas Efectivo ($)</option>
+                <option value="Zelle / Transferencia USD">Zelle / Transferencia USD</option>
+                <option value="Pago Móvil / Punto Bs.">Pago Móvil / Punto Bs.</option>
+                <option value="Cashea / Financiamiento">Cashea / Financiamiento</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Monto (USD)</label>
+              <input type="number" id="accAmount" step="0.01" placeholder="0.00" />
+            </div>
+            <div class="form-group" style="justify-content: flex-end;">
+              <button class="btn btn-primary" onclick="addAccountingEntry()">+ Registrar Asiento</button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table id="tablaContable">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Tipo</th>
+                  <th>Concepto</th>
+                  <th>Método Pago</th>
+                  <th>Monto USD</th>
+                  <th>Equivalente Bs.</th>
+                </tr>
+              </thead>
+              <tbody id="accTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- MÓDULO NUEVO: PEDIDOS WEB RECIBIDOS DESDE index.html                -->
+      <!-- =================================================================== -->
+      <section id="mod-weborders" class="module-section">
+        <div class="info-banner">
+          🔗 <strong>Conexión directa con la tienda (index.html):</strong> Cada vez que un cliente arma su carrito en la página pública y presiona <em>"Enviar Pedido a WhatsApp"</em>, el pedido aparece aquí automáticamente. Al hacer clic en <strong>Aprobar y Facturar</strong>, se descuenta el stock de la tienda, se registra el cliente, se crea la ficha si incluye fórmula y se contabiliza la venta.
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>🌐 Bandeja de Pedidos Online (Desde index.html)</h3>
+            <button class="btn btn-outline" onclick="refreshAll()">🔄 Actualizar Bandeja</button>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Código Web</th>
+                  <th>Fecha</th>
+                  <th>Cliente / Teléfono</th>
+                  <th>Modalidad</th>
+                  <th>Productos / Fórmula</th>
+                  <th>Total USD</th>
+                  <th>Estado</th>
+                  <th>Acción ERP</th>
+                </tr>
+              </thead>
+              <tbody id="webOrdersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- MÓDULO NUEVO: INVENTARIO SINCRONIZADO CON LA TIENDA PÚBLICA         -->
+      <!-- =================================================================== -->
+      <section id="mod-inventario" class="module-section">
+        <div class="info-banner">
+          📦 <strong>Inventario Maestro Compartido:</strong> Cualquier cambio de precio, stock o producto nuevo que agregues aquí se actualiza inmediatamente en el catálogo público de <code>index.html</code>.
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>➕ Agregar Producto al Catálogo Público y Almacén</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label>SKU *</label><input type="text" id="invSku" placeholder="Ej: MON-PRADA-05" /></div>
+            <div class="form-group">
+              <label>Departamento</label>
+              <select id="invDept">
+                <option value="Monturas">Monturas</option>
+                <option value="Cristales">Cristales</option>
+                <option value="Contactologia">Contactología</option>
+                <option value="Accesorios">Accesorios</option>
+                <option value="Servicios">Servicios</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Marca *</label><input type="text" id="invBrand" placeholder="Ej: Prada / Ray-Ban" /></div>
+            <div class="form-group"><label>Nombre / Modelo *</label><input type="text" id="invName" placeholder="Ej: PR 17WS Carey" /></div>
+            <div class="form-group"><label>Subtipo</label><input type="text" id="invSub" placeholder="Ej: Oftálmico / Sol / Monofocal" /></div>
+            <div class="form-group">
+              <label>Género</label>
+              <select id="invGender">
+                <option value="Unisex">Unisex</option>
+                <option value="Mujer">Mujer</option>
+                <option value="Hombre">Hombre</option>
+                <option value="Infantil">Infantil</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Edad</label>
+              <select id="invAge">
+                <option value="Adultos">Adultos</option>
+                <option value="Jóvenes">Jóvenes</option>
+                <option value="Niños">Niños</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Material / Spec</label><input type="text" id="invMat" placeholder="Ej: Acetato Italiano" /></div>
+            <div class="form-group"><label>Medidas</label><input type="text" id="invMeas" placeholder="Ej: 52-18-140 mm" /></div>
+            <div class="form-group"><label>Stock Inicial</label><input type="number" id="invStock" value="10" /></div>
+            <div class="form-group"><label>Costo USD</label><input type="number" id="invCost" step="0.01" value="50.00" /></div>
+            <div class="form-group"><label>Precio Venta USD</label><input type="number" id="invPrice" step="0.01" value="120.00" /></div>
+          </div>
+          <button class="btn btn-primary" onclick="addCatalogItem()">💾 Guardar y Publicar en Tienda</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>📋 Control de Stock y Precios Publicados</h3>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Depto.</th>
+                  <th>Marca / Modelo</th>
+                  <th>Público</th>
+                  <th>Costo USD</th>
+                  <th>Precio Venta USD</th>
+                  <th>Stock Actual</th>
+                  <th>Ajuste Rápido</th>
+                </tr>
+              </thead>
+              <tbody id="inventoryTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- MÓDULO: CONTROL DE PRODUCTOS VENDIDOS                               -->
+      <!-- =================================================================== -->
+      <section id="mod-ventas" class="module-section">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>🧾 Registrar Venta Directa en Tienda / Orden de Trabajo</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label>Cliente / Paciente</label><input type="text" id="saleClient" placeholder="Nombre del comprador" /></div>
+            <div class="form-group"><label>Producto del Catálogo</label><select id="saleProductSelect" onchange="fillSalePriceFromCatalog()"></select></div>
+            <div class="form-group"><label>Cantidad</label><input type="number" id="saleQty" value="1" min="1" /></div>
+            <div class="form-group"><label>Precio Unit. USD</label><input type="number" id="salePrice" step="0.01" /></div>
+            <div class="form-group">
+              <label>Especialista / Vendedor</label>
+              <select id="saleSeller">
+                <option value="Dra. Valeria Mendoza (Optometrista)">Dra. Valeria Mendoza</option>
+                <option value="Carlos Rivas (Asesor Ventas)">Carlos Rivas</option>
+                <option value="Dr. Andrés Silva (Oftalmólogo)">Dr. Andrés Silva</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Estado de Orden / Taller</label>
+              <select id="saleStatus">
+                <option value="Entregado">Entregado</option>
+                <option value="En Laboratorio / Biselado">En Laboratorio / Biselado</option>
+                <option value="Listo para Retiro">Listo para Retiro</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-success" onclick="registerDirectSale()">✅ Registrar Venta y Descontar Stock</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>📦 Historial de Productos Vendidos y Control de Márgenes</h3>
+            <button class="btn btn-accent" onclick="exportTableCSV('tablaVentas', 'Productos_Vendidos_Optica.csv')">Exportar CSV</button>
+          </div>
+          <div class="table-responsive">
+            <table id="tablaVentas">
+              <thead>
+                <tr>
+                  <th>N° Orden</th>
+                  <th>Fecha</th>
+                  <th>Cliente</th>
+                  <th>SKU</th>
+                  <th>Producto / Detalle</th>
+                  <th>Cant.</th>
+                  <th>Total Venta</th>
+                  <th>Costo</th>
+                  <th>Utilidad</th>
+                  <th>Responsable</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="salesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- MÓDULO: FICHA CLÍNICA DE PACIENTES                                  -->
+      <!-- =================================================================== -->
+      <section id="mod-pacientes" class="module-section">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>🩺 Nueva Ficha Clínica e Historia Optométrica</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label>Nombre Completo *</label><input type="text" id="patName" placeholder="Ej: María Fernanda Gómez" /></div>
+            <div class="form-group"><label>Cédula / ID *</label><input type="text" id="patId" placeholder="Ej: V-18.456.789" /></div>
+            <div class="form-group"><label>Edad</label><input type="number" id="patAge" placeholder="Ej: 34" /></div>
+            <div class="form-group"><label>Teléfono</label><input type="text" id="patPhone" placeholder="Ej: 0414-1234567" /></div>
+            <div class="form-group">
+              <label>Especialista</label>
+              <select id="patDoctor">
+                <option value="Dra. Valeria Mendoza (Optometrista)">Dra. Valeria Mendoza (Optometrista)</option>
+                <option value="Dr. Andrés Silva (Oftalmólogo)">Dr. Andrés Silva (Oftalmólogo)</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Diagnóstico Visual</label><input type="text" id="patDiag" placeholder="Ej: Astigmatismo Miópico + Presbicia" /></div>
+          </div>
+
+          <div class="rx-mini-grid">
+            <div class="rx-eye-box">
+              <h4>Ojo Derecho (OD)</h4>
+              <div class="rx-inputs">
+                <div><small>SPH</small><input type="text" id="pOdSph" value="-1.25" /></div>
+                <div><small>CYL</small><input type="text" id="pOdCyl" value="-0.75" /></div>
+                <div><small>EJE</small><input type="text" id="pOdAxis" value="180°" /></div>
+                <div><small>ADD</small><input type="text" id="pOdAdd" value="+1.50" /></div>
+                <div><small>DNP</small><input type="text" id="pOdDnp" value="31mm" /></div>
+              </div>
+            </div>
+            <div class="rx-eye-box">
+              <h4>Ojo Izquierdo (OI)</h4>
+              <div class="rx-inputs">
+                <div><small>SPH</small><input type="text" id="pOiSph" value="-1.50" /></div>
+                <div><small>CYL</small><input type="text" id="pOiCyl" value="-0.50" /></div>
+                <div><small>EJE</small><input type="text" id="pOiAxis" value="175°" /></div>
+                <div><small>ADD</small><input type="text" id="pOiAdd" value="+1.50" /></div>
+                <div><small>DNP</small><input type="text" id="pOiDnp" value="31mm" /></div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" onclick="addPatientRecord()">💾 Guardar Ficha Clínica</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header"><h3>📋 Archivo de Pacientes e Historial de Fórmulas</h3></div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Historia #</th>
+                  <th>Paciente</th>
+                  <th>Cédula</th>
+                  <th>Edad</th>
+                  <th>Fórmula OD</th>
+                  <th>Fórmula OI</th>
+                  <th>Diagnóstico</th>
+                  <th>Especialista</th>
+                </tr>
+              </thead>
+              <tbody id="patientsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- MÓDULO: CLIENTES                                                    -->
+      <!-- =================================================================== -->
+      <section id="mod-clientes" class="module-section">
+        <div class="panel">
+          <div class="panel-header"><h3>👥 Directorio de Clientes y Convenios</h3></div>
+          <div class="form-grid">
+            <div class="form-group"><label>Nombre / Razón Social</label><input type="text" id="cliName" /></div>
+            <div class="form-group"><label>RIF / Cédula</label><input type="text" id="cliRif" /></div>
+            <div class="form-group">
+              <label>Tipo</label>
+              <select id="cliType">
+                <option value="Particular">Particular (Detal)</option>
+                <option value="Convenio Empresa">Convenio Empresa / Seguro</option>
+                <option value="Cliente VIP">Cliente VIP / Recurrente</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Contacto</label><input type="text" id="cliContact" /></div>
+            <div class="form-group" style="justify-content: flex-end;"><button class="btn btn-primary" onclick="addClient()">+ Registrar Cliente</button></div>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead><tr><th>ID</th><th>Nombre / Razón Social</th><th>RIF / Cédula</th><th>Clasificación</th><th>Contacto</th><th>Compras Acumuladas</th></tr></thead>
+              <tbody id="clientsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- MÓDULO: MÉDICOS, ESPECIALISTAS Y EMPLEADOS                          -->
+      <!-- =================================================================== -->
+      <section id="mod-staff" class="module-section">
+        <div class="panel">
+          <div class="panel-header"><h3>👨‍⚕️ Médicos, Especialistas y Empleados</h3></div>
+          <div class="form-grid">
+            <div class="form-group"><label>Nombre Completo</label><input type="text" id="stfName" /></div>
+            <div class="form-group">
+              <label>Cargo / Especialidad</label>
+              <select id="stfRole">
+                <option value="Médico Oftalmólogo">Médico Oftalmólogo</option>
+                <option value="Lic. Optometrista">Lic. Optometrista</option>
+                <option value="Contactólogo">Contactólogo</option>
+                <option value="Técnico Biselador / Taller">Técnico Biselador / Taller</option>
+                <option value="Asesor Óptico / Ventas">Asesor Óptico / Ventas</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Registro MPPS / Colegio</label><input type="text" id="stfLicense" /></div>
+            <div class="form-group"><label>Esquema Comisiones</label><input type="text" id="stfComm" /></div>
+            <div class="form-group" style="justify-content: flex-end;"><button class="btn btn-primary" onclick="addStaff()">+ Agregar Personal</button></div>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead><tr><th>Código</th><th>Nombre</th><th>Cargo</th><th>Registro</th><th>Comisiones</th><th>Estado</th></tr></thead>
+              <tbody id="staffTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- MÓDULO: TIPOS DE USUARIOS                                           -->
+      <!-- =================================================================== -->
+      <section id="mod-usuarios" class="module-section">
+        <div class="panel">
+          <div class="panel-header"><h3>🔐 Tipos de Usuarios de la Óptica y Control de Acceso</h3></div>
+          <div class="table-responsive">
+            <table>
+              <thead><tr><th>Perfil / Tipo de Usuario</th><th>Usuario</th><th>Módulos Permitidos</th><th>Permisos Críticos</th><th>Estado</th></tr></thead>
+              <tbody>
+                <tr><td><span class="badge badge-purple">Administrador General</span></td><td><code>admin@opticahd</code></td><td>Todos los módulos</td><td>Tasas, costos, utilidades, inventario, usuarios</td><td><span class="badge badge-green">Activo</span></td></tr>
+                <tr><td><span class="badge badge-blue">Optometrista / Oftalmólogo</span></td><td><code>clinica.mendoza</code></td><td>Ficha Clínica, Cristales, Taller</td><td>Recetas médicas y diagnósticos</td><td><span class="badge badge-green">Activo</span></td></tr>
+                <tr><td><span class="badge badge-green">Asesor de Ventas / Caja</span></td><td><code>ventas.rivas</code></td><td>Pedidos Web, Ventas, Clientes</td><td>Facturación y cobros (sin ver costos internos)</td><td><span class="badge badge-green">Activo</span></td></tr>
+                <tr><td><span class="badge badge-amber">Técnico Taller / Laboratorio</span></td><td><code>taller.lab</code></td><td>Órdenes de Trabajo (OT)</td><td>Estatus de biselado y montaje</td><td><span class="badge badge-green">Activo</span></td></tr>
+                <tr><td><span class="badge badge-red">Contador / Auditor</span></td><td><code>contabilidad.hd</code></td><td>Dashboard Contable, Ventas</td><td>Libros de ingresos/egresos y exportación CSV</td><td><span class="badge badge-green">Activo</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_CATALOG = [
+      { sku: "MON-RB-5154-2000", departamento: "Monturas", subtipo: "Oftálmico", marca: "Ray-Ban", nombre: "Clubmaster Optics RX5154", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "Wayfarer", tipo_montura: "Aro completo", material: "Combinado (Acetato/Metal)", medidas: "51-21-145 mm", stock: 12, costo_usd: 68.00, precio_usd: 145.00, icon: "👓" },
+      { sku: "MON-CH-0124-HAV", departamento: "Monturas", subtipo: "Oftálmico", marca: "Carolina Herrera", nombre: "HER 0124 Carey Dorado", genero: "Mujer", grupo_edad: "Adultos", forma_aro: "Cat-Eye", tipo_montura: "Aro completo", material: "Acetato", medidas: "53-16-140 mm", stock: 8, costo_usd: 75.00, precio_usd: 165.00, icon: "👓" },
+      { sku: "MON-KID-TR90-08", departamento: "Monturas", subtipo: "Oftálmico", marca: "Nano Vista", nombre: "Arcade Junior 3.0 Indestructible", genero: "Infantil", grupo_edad: "Niños", forma_aro: "Rectangular", tipo_montura: "Aro completo", material: "TR-90 Flexible + Banda", medidas: "46-16-125 mm", stock: 20, costo_usd: 22.00, precio_usd: 55.00, icon: "🧒" },
+      { sku: "MON-JUV-TIT-04", departamento: "Monturas", subtipo: "Oftálmico", marca: "Vogue Eyewear", nombre: "VO4177 Teen Edition Oro Rosa", genero: "Mujer", grupo_edad: "Jóvenes", forma_aro: "Redonda", tipo_montura: "Aro completo", material: "Metal Ligero", medidas: "49-18-135 mm", stock: 10, costo_usd: 42.00, precio_usd: 95.00, icon: "👓" },
+      { sku: "SOL-OAK-9102-01", departamento: "Monturas", subtipo: "Sol", marca: "Oakley", nombre: "Holbrook OO9102 Prizm Polarizado", genero: "Hombre", grupo_edad: "Adultos", forma_aro: "Cuadrada", tipo_montura: "Aro completo", material: "TR-90 / UV400", medidas: "57-18-137 mm", stock: 9, costo_usd: 82.00, precio_usd: 175.00, icon: "🕶️" },
+      { sku: "MON-SEM-TIT-11", departamento: "Monturas", subtipo: "Oftálmico", marca: "Silhouette / Titanium", nombre: "Executive Semiaire Ultraligero", genero: "Hombre", grupo_edad: "Adultos", forma_aro: "Rectangular", tipo_montura: "Semiaire", material: "Titanio", medidas: "54-17-140 mm", stock: 6, costo_usd: 55.00, precio_usd: 120.00, icon: "👓" },
+      { sku: "CRI-MONO-CR39-AR", departamento: "Cristales", subtipo: "Monofocal", marca: "Laboratorio Óptico", nombre: "Par Monofocal CR-39 + Antirreflejante", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Orgánico 1.50 + UV400", medidas: "Blanco 65/70 mm", stock: 40, costo_usd: 12.00, precio_usd: 35.00, icon: "🔬" },
+      { sku: "CRI-MONO-POLY-BC", departamento: "Cristales", subtipo: "Monofocal", marca: "Laboratorio Óptico", nombre: "Par Policarbonato + Filtro Luz Azul", genero: "Unisex", grupo_edad: "Jóvenes", forma_aro: "N/A", tipo_montura: "N/A", material: "Policarbonato 1.59 Irrompible", medidas: "Blanco 70/75 mm", stock: 30, costo_usd: 24.00, precio_usd: 65.00, icon: "💻" },
+      { sku: "CRI-PROG-FREE-160", departamento: "Cristales", subtipo: "Progresivo", marca: "Digital Free-Form", nombre: "Par Progresivo Campo Amplio 1.60 + AR", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Alto Índice 1.60", medidas: "Tallado Digital", stock: 20, costo_usd: 72.00, precio_usd: 160.00, icon: "👁️" },
+      { sku: "LC-ACU-OAS-6", departamento: "Contactologia", subtipo: "Esférico", marca: "Johnson & Johnson", nombre: "Acuvue Oasys Hydraclear (Caja x6)", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Hidrogel Silicona | BC 8.4/8.8", medidas: "DIA 14.0 mm | Quincenal", stock: 25, costo_usd: 24.00, precio_usd: 42.00, icon: "🔵" },
+      { sku: "LC-AIR-TOR-6", departamento: "Contactologia", subtipo: "Tórico", marca: "Alcon", nombre: "Air Optix Astigmatismo (Caja x6)", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Lotrafilcon B | BC 8.7", medidas: "DIA 14.5 mm | Mensual", stock: 15, costo_usd: 32.00, precio_usd: 55.00, icon: "🔵" },
+      { sku: "ACC-KIT-LIMP-01", departamento: "Accesorios", subtipo: "Limpieza", marca: "Visión Care", nombre: "Kit Spray Limpiador AR + Paño Microfibra", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "60ml Sin Alcohol", medidas: "Universal", stock: 60, costo_usd: 2.50, precio_usd: 7.00, icon: "🧴" },
+      { sku: "ACC-COR-DEP-03", departamento: "Accesorios", subtipo: "Sujetadores", marca: "Kids & Sport", nombre: "Cordón Sujetador Silicona Niños / Deporte", genero: "Infantil", grupo_edad: "Niños", forma_aro: "N/A", tipo_montura: "N/A", material: "Silicona Hipoalergénica", medidas: "Ajustable", stock: 35, costo_usd: 1.50, precio_usd: 5.00, icon: "🎗️" },
+      { sku: "SRV-EXA-01", departamento: "Servicios", subtipo: "Consultorio", marca: "Optometría Clínica", nombre: "Consulta Optométrica Integral + Agudeza Visual", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Duración: 30 min", medidas: "Gratis al comprar lentes", stock: 99, costo_usd: 0.00, precio_usd: 15.00, icon: "🩺" },
+      { sku: "TAL-MON-01", departamento: "Servicios", subtipo: "Taller Óptico", marca: "Laboratorio", nombre: "Servicio de Biselado y Montaje Computarizado", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Entrega 24h", medidas: "Aro Completo", stock: 99, costo_usd: 3.00, precio_usd: 10.00, icon: "⚙️" }
+    ];
+
+    function getCatalog() {
+      const saved = localStorage.getItem("optica_shared_catalog");
+      if (saved) return JSON.parse(saved);
+      localStorage.setItem("optica_shared_catalog", JSON.stringify(DEFAULT_CATALOG));
+      return DEFAULT_CATALOG;
+    }
+
+    function saveCatalog(cat) {
+      localStorage.setItem("optica_shared_catalog", JSON.stringify(cat));
+    }
+
+    let salesData = JSON.parse(localStorage.getItem("erp_sales")) || [
+      { orderId: "OT-1001", date: "2026-11-14", client: "María Fernanda Gómez", sku: "MON-CH-0124-HAV", product: "Carolina Herrera HER 0124", qty: 1, saleUsd: 165.00, costUsd: 75.00, seller: "Dra. Valeria Mendoza (Optometrista)", status: "Entregado" }
+    ];
+
+    let accountingData = JSON.parse(localStorage.getItem("erp_acc")) || [
+      { date: "2026-11-14", type: "Ingreso", desc: "Venta Orden OT-1001 (Montura CH)", method: "Divisas Efectivo ($)", amount: 165.00 }
+    ];
+
+    let patientsData = JSON.parse(localStorage.getItem("erp_patients")) || [
+      { hc: "HC-001", name: "María Fernanda Gómez", idDoc: "V-18.456.789", age: 38, od: "SPH -1.25 / CYL -0.75 x 180° (ADD +1.00)", oi: "SPH -1.50 / CYL -0.50 x 175° (ADD +1.00)", diag: "Astigmatismo Miópico + Presbicia Inicial", doctor: "Dra. Valeria Mendoza (Optometrista)" }
+    ];
+
+    let clientsData = JSON.parse(localStorage.getItem("erp_clients")) || [
+      { id: "CLI-01", name: "María Fernanda Gómez", rif: "V-18.456.789", type: "Cliente VIP", contact: "0414-1234567", total: 165.00 }
+    ];
+
+    let staffData = JSON.parse(localStorage.getItem("erp_staff")) || [
+      { code: "MED-01", name: "Dr. Andrés Silva", role: "Médico Oftalmólogo", license: "MPPS 84.210", comm: "15% Consultas Especializadas", status: "Activo" },
+      { code: "OPT-02", name: "Dra. Valeria Mendoza", role: "Lic. Optometrista", license: "COV 1.482", comm: "10% Consultas + 3% Cristales", status: "Activo" },
+      { code: "VEN-03", name: "Carlos Rivas", role: "Asesor Óptico / Ventas", license: "N/A", comm: "4% Ventas Netas", status: "Activo" },
+      { code: "TAL-04", name: "José Gregorio Pérez", role: "Técnico Biselador / Taller", license: "Cert. Taller Óptico", comm: "Sueldo Base + Bono Montaje", status: "Activo" }
+    ];
+
+    function initRate() {
+      const sharedRate = localStorage.getItem("optica_shared_rate");
+      if (sharedRate) {
+        document.getElementById("bcvRate").value = parseFloat(sharedRate).toFixed(2);
+      }
+    }
+
+    function syncRateFromAdmin() {
+      const val = parseFloat(document.getElementById("bcvRate").value) || 45.50;
+      localStorage.setItem("optica_shared_rate", val.toString());
+      refreshAll();
+    }
+
+    function getRate() {
+      return parseFloat(document.getElementById("bcvRate").value) || 45.50;
+    }
+
+    function switchModule(modId, el) {
+      document.querySelectorAll(".module-section").forEach(s => s.classList.remove("active"));
+      document.getElementById("mod-" + modId).classList.add("active");
+      document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
+      if (el) el.classList.add("active");
+
+      const titles = {
+        dashboard: "Dashboard Administrativo y Control Contable",
+        weborders: "Pedidos Web Recibidos desde index.html",
+        inventario: "Inventario Sincronizado con Tienda Online",
+        ventas: "Control de Ventas y Productos Vendidos",
+        pacientes: "Ficha Clínica de Pacientes y Refracción",
+        clientes: "Directorio de Clientes y Convenios",
+        staff: "Médicos, Especialistas y Personal Operativo",
+        usuarios: "Tipos de Usuarios y Matriz de Permisos"
+      };
+      document.getElementById("moduleTitle").textContent = titles[modId] || "ERP Óptica";
+      refreshAll();
+    }
+
+    function applyRolePermissions() {
+      const role = document.getElementById("activeUserRole").value;
+      alert(`Vista cambiada al perfil: ${role.replace("_", " ")}.`);
+    }
+
+    // =========================================================================
+    // PROCESAR PEDIDOS RECIBIDOS DESDE index.html
+    // =========================================================================
+    function approveWebOrder(webOrderCode) {
+      const webOrders = JSON.parse(localStorage.getItem("optica_web_orders")) || [];
+      const order = webOrders.find(o => o.webOrderCode === webOrderCode);
+      if (!order || order.status !== "Pendiente por Procesar") return;
+
+      const catalog = getCatalog();
+      const today = new Date().toISOString().slice(0, 10);
+
+      order.items.forEach((item, idx) => {
+        const orderId = `${order.webOrderCode}-${idx + 1}`;
+        const saleUsd = item.precio_usd * item.qty;
+        const costUsd = (item.costo_usd || 0) * item.qty;
+
+        salesData.unshift({
+          orderId,
+          date: today,
+          client: order.customer.name,
+          sku: item.sku,
+          product: item.nombre,
+          qty: item.qty,
+          saleUsd,
+          costUsd,
+          seller: "Tienda Web (index.html)",
+          status: item.rx_od ? "En Laboratorio / Biselado" : "Listo para Retiro"
+        });
+
+        // Descontar stock en catálogo compartido
+        const catItem = catalog.find(c => c.sku === item.sku);
+        if (catItem && catItem.stock > 0) {
+          catItem.stock = Math.max(0, catItem.stock - item.qty);
+        }
+
+        // Si el pedido web traía fórmula médica, crear ficha clínica automáticamente
+        if (item.rx_od) {
+          patientsData.unshift({
+            hc: "HC-00" + (patientsData.length + 1),
+            name: order.customer.name,
+            idDoc: order.customer.cedula,
+            age: "Web",
+            od: item.rx_od,
+            oi: item.rx_oi,
+            diag: "Fórmula enviada desde Cotizador Web",
+            doctor: "Pendiente Validación Optometrista"
+          });
+        }
+      });
+
+      // Registrar ingreso contable
+      accountingData.unshift({
+        date: today,
+        type: "Ingreso",
+        desc: `Pedido Web ${order.webOrderCode} - ${order.customer.name}`,
+        method: "Por Confirmar / Transferencia",
+        amount: order.totalUsd
+      });
+
+      // Registrar/actualizar cliente
+      const existingCli = clientsData.find(c => c.name.toLowerCase() === order.customer.name.toLowerCase());
+      if (existingCli) {
+        existingCli.total += order.totalUsd;
+      } else {
+        clientsData.unshift({
+          id: "CLI-0" + (clientsData.length + 1),
+          name: order.customer.name,
+          rif: order.customer.cedula,
+          type: "Particular",
+          contact: order.customer.phone,
+          total: order.totalUsd
+        });
+      }
+
+      order.status = "Facturado y Procesado";
+      localStorage.setItem("optica_web_orders", JSON.stringify(webOrders));
+      saveCatalog(catalog);
+      saveAll();
+      refreshAll();
+      alert(`Pedido ${webOrderCode} aprobado: Stock actualizado, venta contabilizada y ficha generada.`);
+    }
+
+    // =========================================================================
+    // GESTIÓN DE INVENTARIO SINCRONIZADO
+    // =========================================================================
+    function addCatalogItem() {
+      const sku = document.getElementById("invSku").value.trim();
+      const brand = document.getElementById("invBrand").value.trim();
+      const name = document.getElementById("invName").value.trim();
+      if (!sku || !brand || !name) {
+        alert("SKU, Marca y Nombre son obligatorios.");
+        return;
+      }
+
+      const catalog = getCatalog();
+      catalog.unshift({
+        sku,
+        departamento: document.getElementById("invDept").value,
+        subtipo: document.getElementById("invSub").value || "Estándar",
+        marca: brand,
+        nombre: name,
+        genero: document.getElementById("invGender").value,
+        grupo_edad: document.getElementById("invAge").value,
+        forma_aro: "N/A",
+        tipo_montura: "Aro completo",
+        material: document.getElementById("invMat").value || "Estándar",
+        medidas: document.getElementById("invMeas").value || "Universal",
+        stock: parseInt(document.getElementById("invStock").value) || 0,
+        costo_usd: parseFloat(document.getElementById("invCost").value) || 0,
+        precio_usd: parseFloat(document.getElementById("invPrice").value) || 0,
+        icon: "👓"
+      });
+
+      saveCatalog(catalog);
+      document.getElementById("invSku").value = "";
+      document.getElementById("invName").value = "";
+      refreshAll();
+      alert("Producto publicado en el catálogo de index.html.");
+    }
+
+    function adjustStock(sku, delta) {
+      const catalog = getCatalog();
+      const item = catalog.find(c => c.sku === sku);
+      if (item) {
+        item.stock = Math.max(0, item.stock + delta);
+        saveCatalog(catalog);
+        refreshAll();
+      }
+    }
+
+    function fillSalePriceFromCatalog() {
+      const sku = document.getElementById("saleProductSelect").value;
+      const item = getCatalog().find(c => c.sku === sku);
+      if (item) {
+        document.getElementById("salePrice").value = item.precio_usd.toFixed(2);
+      }
+    }
+
+    function registerDirectSale() {
+      const client = document.getElementById("saleClient").value.trim() || "Cliente Mostrador";
+      const sku = document.getElementById("saleProductSelect").value;
+      const catalog = getCatalog();
+      const item = catalog.find(c => c.sku === sku);
+      if (!item) return;
+
+      const qty = parseInt(document.getElementById("saleQty").value) || 1;
+      const unitSale = parseFloat(document.getElementById("salePrice").value) || item.precio_usd;
+      const totalSale = unitSale * qty;
+      const totalCost = (item.costo_usd || 0) * qty;
+      const orderId = "OT-" + (1001 + salesData.length);
+      const today = new Date().toISOString().slice(0, 10);
+
+      salesData.unshift({
+        orderId,
+        date: today,
+        client,
+        sku: item.sku,
+        product: `${item.marca} - ${item.nombre}`,
+        qty,
+        saleUsd: totalSale,
+        costUsd: totalCost,
+        seller: document.getElementById("saleSeller").value,
+        status: document.getElementById("saleStatus").value
+      });
+
+      item.stock = Math.max(0, item.stock - qty);
+      saveCatalog(catalog);
+
+      accountingData.unshift({
+        date: today,
+        type: "Ingreso",
+        desc: `Venta ${orderId} - ${item.nombre} (x${qty})`,
+        method: "Divisas Efectivo ($)",
+        amount: totalSale
+      });
+
+      saveAll();
+      refreshAll();
+      alert(`Venta ${orderId} registrada y stock actualizado en la tienda.`);
+    }
+
+    function addAccountingEntry() {
+      const type = document.getElementById("accType").value;
+      const desc = document.getElementById("accDesc").value.trim();
+      const method = document.getElementById("accMethod").value;
+      const amount = parseFloat(document.getElementById("accAmount").value) || 0;
+      if (!desc || amount <= 0) return;
+
+      accountingData.unshift({ date: new Date().toISOString().slice(0, 10), type, desc, method, amount });
+      document.getElementById("accDesc").value = "";
+      document.getElementById("accAmount").value = "";
+      saveAll();
+      refreshAll();
+    }
+
+    function addPatientRecord() {
+      const name = document.getElementById("patName").value.trim();
+      const idDoc = document.getElementById("patId").value.trim();
+      if (!name || !idDoc) return;
+
+      const od = `SPH ${document.getElementById("pOdSph").value} / CYL ${document.getElementById("pOdCyl").value} x ${document.getElementById("pOdAxis").value} (ADD ${document.getElementById("pOdAdd").value})`;
+      const oi = `SPH ${document.getElementById("pOiSph").value} / CYL ${document.getElementById("pOiCyl").value} x ${document.getElementById("pOiAxis").value} (ADD ${document.getElementById("pOiAdd").value})`;
+
+      patientsData.unshift({
+        hc: "HC-00" + (patientsData.length + 1),
+        name,
+        idDoc,
+        age: document.getElementById("patAge").value || "N/A",
+        od,
+        oi,
+        diag: document.getElementById("patDiag").value || "Evaluación Optométrica",
+        doctor: document.getElementById("patDoctor").value
+      });
+
+      document.getElementById("patName").value = "";
+      document.getElementById("patId").value = "";
+      saveAll();
+      refreshAll();
+    }
+
+    function addClient() {
+      const name = document.getElementById("cliName").value.trim();
+      if (!name) return;
+      clientsData.unshift({
+        id: "CLI-0" + (clientsData.length + 1),
+        name,
+        rif: document.getElementById("cliRif").value.trim() || "N/A",
+        type: document.getElementById("cliType").value,
+        contact: document.getElementById("cliContact").value || "N/A",
+        total: 0
+      });
+      document.getElementById("cliName").value = "";
+      saveAll();
+      refreshAll();
+    }
+
+    function addStaff() {
+      const name = document.getElementById("stfName").value.trim();
+      if (!name) return;
+      staffData.push({
+        code: "EMP-0" + (staffData.length + 1),
+        name,
+        role: document.getElementById("stfRole").value,
+        license: document.getElementById("stfLicense").value || "N/A",
+        comm: document.getElementById("stfComm").value || "Estándar",
+        status: "Activo"
+      });
+      document.getElementById("stfName").value = "";
+      saveAll();
+      refreshAll();
+    }
+
+    function saveAll() {
+      localStorage.setItem("erp_sales", JSON.stringify(salesData));
+      localStorage.setItem("erp_acc", JSON.stringify(accountingData));
+      localStorage.setItem("erp_patients", JSON.stringify(patientsData));
+      localStorage.setItem("erp_clients", JSON.stringify(clientsData));
+      localStorage.setItem("erp_staff", JSON.stringify(staffData));
+    }
+
+    function refreshAll() {
+      const rate = getRate();
+      const catalog = getCatalog();
+      const webOrders = JSON.parse(localStorage.getItem("optica_web_orders")) || [];
+      const pendingWebCount = webOrders.filter(o => o.status === "Pendiente por Procesar").length;
+
+      document.getElementById("webOrdersBadge").textContent = pendingWebCount;
+      document.getElementById("kpiWebPending").textContent = pendingWebCount;
+
+      // KPIs
+      const totalSales = salesData.reduce((acc, s) => acc + s.saleUsd, 0);
+      const totalCost = salesData.reduce((acc, s) => acc + s.costUsd, 0);
+      const profit = totalSales - totalCost;
+      const margin = totalSales > 0 ? ((profit / totalSales) * 100).toFixed(1) : 0;
+
+      document.getElementById("kpiSalesUsd").textContent = `$${totalSales.toFixed(2)}`;
+      document.getElementById("kpiSalesBs").textContent = `${(totalSales * rate).toFixed(2)} Bs.`;
+      document.getElementById("kpiCostUsd").textContent = `$${totalCost.toFixed(2)}`;
+      document.getElementById("kpiProfitUsd").textContent = `$${profit.toFixed(2)}`;
+      document.getElementById("kpiMarginPct").textContent = `Margen Bruto: ${margin}%`;
+      document.getElementById("kpiPatientsCount").textContent = `${patientsData.length} fichas clínicas activas`;
+
+      // Pedidos Web
+      document.getElementById("webOrdersTableBody").innerHTML = webOrders.length === 0
+        ? `<tr><td colspan="8" style="text-align:center; color:var(--muted);">Aún no hay pedidos enviados desde index.html.</td></tr>`
+        : webOrders.map(o => `
+          <tr>
+            <td><strong>${o.webOrderCode}</strong></td>
+            <td>${o.date}</td>
+            <td><strong>${o.customer.name}</strong><br/><small>${o.customer.phone} | ${o.customer.cedula}</small></td>
+            <td>${o.customer.delivery}</td>
+            <td>${o.items.map(i => `<div>• ${i.nombre} (x${i.qty})</div>`).join("")}</td>
+            <td><strong>$${o.totalUsd.toFixed(2)}</strong></td>
+            <td><span class="badge ${o.status === 'Pendiente por Procesar' ? 'badge-amber' : 'badge-green'}">${o.status}</span></td>
+            <td>
+              ${o.status === 'Pendiente por Procesar'
+                ? `<button class="btn btn-success" onclick="approveWebOrder('${o.webOrderCode}')">✅ Aprobar y Facturar</button>`
+                : `<span style="color:var(--muted); font-size:0.8rem;">Procesado</span>`}
+            </td>
+          </tr>
+        `).join("");
+
+      // Inventario
+      document.getElementById("inventoryTableBody").innerHTML = catalog.map(c => `
+        <tr>
+          <td><code>${c.sku}</code></td>
+          <td>${c.departamento}</td>
+          <td><strong>${c.marca}</strong> - ${c.nombre}</td>
+          <td>${c.genero} (${c.grupo_edad})</td>
+          <td>$${(c.costo_usd || 0).toFixed(2)}</td>
+          <td><strong>$${c.precio_usd.toFixed(2)}</strong></td>
+          <td><span class="badge ${c.stock > 3 ? 'badge-green' : 'badge-red'}">${c.stock} unid.</span></td>
+          <td>
+            <button class="btn btn-outline" onclick="adjustStock('${c.sku}', -1)">-1</button>
+            <button class="btn btn-outline" onclick="adjustStock('${c.sku}', 1)">+1</button>
+          </td>
+        </tr>
+      `).join("");
+
+      // Select de ventas rápidas
+      const sel = document.getElementById("saleProductSelect");
+      if (sel) {
+        sel.innerHTML = catalog.map(c => `<option value="${c.sku}">${c.sku} - ${c.marca} ${c.nombre} ($${c.precio_usd})</option>`).join("");
+        fillSalePriceFromCatalog();
+      }
+
+      // Contabilidad
+      document.getElementById("accTableBody").innerHTML = accountingData.map(a => `
+        <tr>
+          <td>${a.date}</td>
+          <td><span class="badge ${a.type === 'Ingreso' ? 'badge-green' : 'badge-red'}">${a.type}</span></td>
+          <td>${a.desc}</td>
+          <td>${a.method}</td>
+          <td><strong>${a.type === 'Ingreso' ? '+' : '-'}$${a.amount.toFixed(2)}</strong></td>
+          <td>${(a.amount * rate).toFixed(2)} Bs.</td>
+        </tr>
+      `).join("");
+
+      // Ventas
+      document.getElementById("salesTableBody").innerHTML = salesData.map(s => {
+        const util = s.saleUsd - s.costUsd;
+        return `
+          <tr>
+            <td><strong>${s.orderId}</strong></td>
+            <td>${s.date}</td>
+            <td>${s.client}</td>
+            <td><code>${s.sku}</code></td>
+            <td>${s.product}</td>
+            <td>${s.qty}</td>
+            <td><strong>$${s.saleUsd.toFixed(2)}</strong></td>
+            <td>$${s.costUsd.toFixed(2)}</td>
+            <td style="color: var(--success); font-weight:700;">+$${util.toFixed(2)}</td>
+            <td>${s.seller}</td>
+            <td><span class="badge ${s.status === 'Entregado' ? 'badge-green' : 'badge-amber'}">${s.status}</span></td>
+          </tr>
+        `;
+      }).join("");
+
+      // Pacientes
+      document.getElementById("patientsTableBody").innerHTML = patientsData.map(p => `
+        <tr>
+          <td><strong>${p.hc}</strong></td>
+          <td>${p.name}</td>
+          <td>${p.idDoc}</td>
+          <td>${p.age}</td>
+          <td><code>${p.od}</code></td>
+          <td><code>${p.oi}</code></td>
+          <td>${p.diag}</td>
+          <td>${p.doctor}</td>
+        </tr>
+      `).join("");
+
+      // Clientes
+      document.getElementById("clientsTableBody").innerHTML = clientsData.map(c => `
+        <tr>
+          <td><strong>${c.id}</strong></td>
+          <td>${c.name}</td>
+          <td>${c.rif}</td>
+          <td><span class="badge badge-blue">${c.type}</span></td>
+          <td>${c.contact}</td>
+          <td><strong>$${c.total.toFixed(2)}</strong></td>
+        </tr>
+      `).join("");
+
+      // Staff
+      document.getElementById("staffTableBody").innerHTML = staffData.map(st => `
+        <tr>
+          <td><strong>${st.code}</strong></td>
+          <td>${st.name}</td>
+          <td>${st.role}</td>
+          <td>${st.license}</td>
+          <td>${st.comm}</td>
+          <td><span class="badge badge-green">${st.status}</span></td>
+        </tr>
+      `).join("");
+    }
+
+    function exportTableCSV(tableId, filename) {
+      const rows = document.querySelectorAll(`#${tableId} tr`);
+      const csv = Array.from(rows).map(row => {
+        const cols = row.querySelectorAll("th, td");
+        return Array.from(cols).map(c => `"${c.innerText.replace(/"/g, '""')}"`).join(",");
+      }).join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+    }
+
+    function exportAllJSON() {
+      const backup = {
+        fecha_respaldo: new Date().toISOString(),
+        tasa_bcv: getRate(),
+        catalogo_productos: getCatalog(),
+        pedidos_web: JSON.parse(localStorage.getItem("optica_web_orders")) || [],
+        ventas: salesData,
+        contabilidad: accountingData,
+        pacientes: patientsData,
+        clientes: clientsData,
+        especialistas_empleados: staffData
+      };
+      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "Respaldo_Completo_Optica.json";
+      link.click();
+    }
+
+    function importAllJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (data.tasa_bcv) localStorage.setItem("optica_shared_rate", data.tasa_bcv.toString());
+          if (data.catalogo_productos) saveCatalog(data.catalogo_productos);
+          if (data.pedidos_web) localStorage.setItem("optica_web_orders", JSON.stringify(data.pedidos_web));
+          if (data.ventas) salesData = data.ventas;
+          if (data.contabilidad) accountingData = data.contabilidad;
+          if (data.pacientes) patientsData = data.pacientes;
+          if (data.clientes) clientsData = data.clientes;
+          if (data.especialistas_empleados) staffData = data.especialistas_empleados;
+          saveAll();
+          initRate();
+          refreshAll();
+          alert("Base de datos restaurada exitosamente desde el archivo JSON.");
+        } catch (err) {
+          alert("Error al leer el archivo JSON de respaldo.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    window.addEventListener("storage", () => {
+      initRate();
+      refreshAll();
+    });
+
+    initRate();
+    refreshAll();
+  </script>
+</body>
+</html>
