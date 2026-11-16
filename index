@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Óptica Visión HD | Catálogo Oficial, Cotizador de Cristales y Citas</title>
+  <style>
+    :root {
+      --primary: #1b365d;
+      --primary-dark: #102442;
+      --accent: #008080;
+      --accent-hover: #006666;
+      --whatsapp: #25d366;
+      --whatsapp-dark: #1ebe57;
+      --bg: #f4f7fa;
+      --card-bg: #ffffff;
+      --text: #1a202c;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      --radius: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; }
+
+    .topbar {
+      background: var(--primary-dark); color: #fff; font-size: 0.85rem; padding: 6px 20px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .topbar-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .rate-box {
+      display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12);
+      padding: 3px 10px; border-radius: 20px;
+    }
+    .rate-box input { width: 65px; border: none; border-radius: 4px; padding: 2px 6px; font-weight: bold; text-align: right; }
+    .admin-link {
+      color: #99f6e4; text-decoration: none; font-weight: 600; font-size: 0.82rem;
+      border: 1px solid rgba(153,246,228,0.4); padding: 3px 10px; border-radius: 15px;
+    }
+    .admin-link:hover { background: rgba(255,255,255,0.1); }
+
+    header { background: #fff; box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100; }
+    .header-main {
+      max-width: 1320px; margin: 0 auto; padding: 14px 20px;
+      display: flex; justify-content: space-between; align-items: center; gap: 20px;
+    }
+    .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .logo span { color: var(--accent); }
+    .search-bar { flex: 1; max-width: 480px; display: flex; }
+    .search-bar input { width: 100%; padding: 9px 14px; border: 1px solid var(--border); border-radius: 6px 0 0 6px; outline: none; }
+    .search-bar button { background: var(--primary); color: #fff; border: none; padding: 0 16px; border-radius: 0 6px 6px 0; cursor: pointer; }
+    .btn-cart {
+      background: var(--primary); color: #fff; border: none; padding: 10px 16px; border-radius: 6px;
+      cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;
+    }
+    .cart-badge { background: var(--accent); color: #fff; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; }
+
+    nav.main-nav { background: var(--primary); color: #fff; }
+    .nav-container { max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; padding: 0 20px; }
+    .nav-item { position: relative; }
+    .nav-link { display: block; color: #fff; text-decoration: none; padding: 12px 16px; font-size: 0.92rem; font-weight: 600; cursor: pointer; }
+    .nav-link:hover, .nav-link.active { background: var(--accent); }
+    .mega-dropdown {
+      display: none; position: absolute; left: 0; top: 100%; background: #fff; color: var(--text);
+      min-width: 520px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); border-radius: 0 0 8px 8px;
+      padding: 20px; grid-template-columns: repeat(3, 1fr); gap: 20px; z-index: 200;
+    }
+    .nav-item:hover .mega-dropdown { display: grid; }
+    .mega-col h4 { color: var(--primary); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; border-bottom: 2px solid var(--accent); padding-bottom: 4px; }
+    .mega-col ul { list-style: none; }
+    .mega-col ul li { margin-bottom: 6px; }
+    .mega-col ul li a { color: var(--muted); text-decoration: none; font-size: 0.88rem; cursor: pointer; }
+    .mega-col ul li a:hover { color: var(--accent); font-weight: 600; }
+
+    .hero { background: linear-gradient(135deg, var(--primary) 0%, #2b5876 100%); color: #fff; padding: 34px 20px; text-align: center; }
+    .hero h1 { font-size: 2rem; margin-bottom: 8px; }
+    .hero p { max-width: 680px; margin: 0 auto 18px; opacity: 0.9; }
+    .hero-btns { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-outline { background: transparent; color: #fff; border: 1.5px solid #fff; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+
+    .container { max-width: 1320px; margin: 26px auto; padding: 0 20px; display: grid; grid-template-columns: 270px 1fr; gap: 24px; }
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .mega-dropdown { min-width: 300px; grid-template-columns: 1fr; } }
+
+    aside.filters { background: #fff; padding: 18px; border-radius: var(--radius); box-shadow: var(--shadow); height: fit-content; }
+    .filter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .filter-group { margin-bottom: 16px; }
+    .filter-group label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+    .filter-group select, .filter-group input { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.88rem; }
+    .btn-reset { background: none; border: none; color: var(--accent); font-size: 0.82rem; cursor: pointer; text-decoration: underline; }
+
+    .catalog-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .dept-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .tab-btn { padding: 8px 14px; border: 1px solid var(--border); background: #fff; border-radius: 20px; cursor: pointer; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
+    .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+    .product-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border); }
+    .card-img { height: 155px; background: #eef2f6; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 12px; text-align: center; }
+    .badge-dept { position: absolute; top: 10px; left: 10px; background: var(--primary); color: #fff; font-size: 0.72rem; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+    .badge-age { position: absolute; top: 10px; right: 10px; background: var(--accent); color: #fff; font-size: 0.72rem; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+    .card-body { padding: 15px; flex: 1; display: flex; flex-direction: column; }
+    .card-brand { font-size: 0.78rem; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+    .card-title { font-size: 1rem; font-weight: 700; margin: 4px 0 8px; color: var(--text); }
+    .card-specs { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; background: #f8fafc; padding: 8px; border-radius: 6px; }
+    .card-price-row { margin-top: auto; display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+    .price-usd { font-size: 1.2rem; font-weight: 800; color: var(--primary); }
+    .price-bs { font-size: 0.82rem; color: var(--muted); }
+    .card-actions { display: grid; grid-template-columns: 1fr; gap: 6px; }
+    .btn-add { background: var(--primary); color: #fff; border: none; padding: 9px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+    .btn-add:disabled { background: #94a3b8; cursor: not-allowed; }
+    .btn-rx { background: #e6fffa; color: var(--accent-hover); border: 1px solid var(--accent); padding: 7px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
+
+    .rx-section { max-width: 1320px; margin: 30px auto; padding: 0 20px; }
+    .rx-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; border-top: 4px solid var(--accent); }
+    .rx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; }
+    .rx-box { border: 1px solid var(--border); padding: 14px; border-radius: 8px; background: #f8fafc; }
+    .rx-box h4 { color: var(--primary); margin-bottom: 10px; font-size: 0.95rem; }
+    .rx-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .rx-row label { font-size: 0.72rem; font-weight: 700; color: var(--muted); }
+    .rx-row input, .rx-box select { width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; }
+    .rx-recommendation { margin-top: 14px; padding: 12px; background: #e6fffa; border-left: 4px solid var(--accent); border-radius: 4px; font-size: 0.9rem; }
+
+    .cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 300; }
+    .cart-drawer {
+      position: fixed; top: 0; right: -440px; width: 100%; max-width: 420px; height: 100vh;
+      background: #fff; box-shadow: -5px 0 20px rgba(0,0,0,0.15); z-index: 310;
+      display: flex; flex-direction: column; transition: right 0.3s ease;
+    }
+    .cart-drawer.open { right: 0; }
+    .cart-top { background: var(--primary); color: #fff; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .close-cart { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+    .cart-items { flex: 1; overflow-y: auto; padding: 16px; }
+    .cart-item { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; gap: 10px; }
+    .cart-item-info h5 { font-size: 0.92rem; color: var(--primary); }
+    .cart-item-info p { font-size: 0.78rem; color: var(--muted); }
+    .qty-controls { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+    .qty-btn { width: 24px; height: 24px; border: 1px solid var(--border); background: #f1f5f9; cursor: pointer; border-radius: 4px; font-weight: bold; }
+    .btn-remove-item { background: none; border: none; color: #ef4444; font-size: 0.78rem; cursor: pointer; text-decoration: underline; margin-left: 8px; }
+    .cart-footer { padding: 16px 20px; border-top: 1px solid var(--border); background: #f8fafc; }
+    .customer-form { display: grid; gap: 8px; margin-bottom: 12px; }
+    .customer-form input, .customer-form select { padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.85rem; }
+    .cart-totals { margin-bottom: 12px; font-size: 0.95rem; }
+    .cart-totals div { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .btn-whatsapp {
+      width: 100%; background: var(--whatsapp); color: #fff; border: none; padding: 12px;
+      border-radius: 6px; font-size: 0.95rem; font-weight: 700; cursor: pointer;
+    }
+    .btn-whatsapp:hover { background: var(--whatsapp-dark); }
+    .btn-clear-cart {
+      width: 100%; background: transparent; color: #dc2626; border: 1px solid #fecaca;
+      padding: 8px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin-top: 8px;
+    }
+    .btn-clear-cart:hover { background: #fee2e2; }
+
+    footer { background: var(--primary-dark); color: #cbd5e1; padding: 36px 20px; margin-top: 40px; font-size: 0.88rem; }
+    .footer-grid { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+    .footer-grid h4 { color: #fff; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div>📍 Examen Visual Gratis por la compra de Montura + Cristales | Envíos Nacionales</div>
+    <div class="topbar-right">
+      <div class="rate-box">
+        <span>Tasa Ref.:</span>
+        <input type="number" id="exchangeRate" value="45.50" step="0.10" onchange="syncRateFromStore()" />
+        <span>Bs./USD</span>
+      </div>
+      <a href="admin_optica.html" class="admin-link">🔐 Acceso ERP Administrativo</a>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-main">
+      <a href="#" class="logo">👓 ÓPTICA<span>VISIÓN HD</span></a>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Buscar por marca, modelo, SKU, niño, progresivo..." oninput="renderProducts()" />
+        <button onclick="renderProducts()">Buscar</button>
+      </div>
+      <div class="header-actions">
+        <button class="btn-cart" onclick="toggleCart(true)">
+          🛒 Carrito <span class="cart-badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="main-nav">
+      <div class="nav-container">
+        <div class="nav-item"><a class="nav-link active" onclick="quickFilter('all', '', '')">Catálogo Completo</a></div>
+        <div class="nav-item">
+          <a class="nav-link" onclick="quickFilter('Monturas', '', '')">Lentes Oftálmicos (Monturas) ▾</a>
+          <div class="mega-dropdown">
+            <div class="mega-col">
+              <h4>Por Público</h4>
+              <ul>
+                <li><a onclick="quickFilter('Monturas', 'Mujer', '')">Mujer</a></li>
+                <li><a onclick="quickFilter('Monturas', 'Hombre', '')">Hombre</a></li>
+                <li><a onclick="quickFilter('Monturas', 'Unisex', '')">Unisex</a></li>
+                <li><a onclick="quickFilter('Monturas', '', 'Jóvenes')">Jóvenes / Teens</a></li>
+                <li><a onclick="quickFilter('Monturas', '', 'Niños')">Niños (Infantil)</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <h4>Tipo de Montura</h4>
+              <ul>
+                <li><a onclick="filterByFrameType('Aro completo')">Aro Completo</a></li>
+                <li><a onclick="filterByFrameType('Semiaire')">Semiaire / Ranurada</a></li>
+                <li><a onclick="filterByFrameType('Al aire')">Al Aire / Perforada</a></li>
+                <li><a onclick="filterByFrameType('Clip-On')">Clip-On (2 en 1)</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <h4>Marcas Destacadas</h4>
+              <ul>
+                <li><a onclick="filterByBrand('Ray-Ban')">Ray-Ban</a></li>
+                <li><a onclick="filterByBrand('Carolina Herrera')">Carolina Herrera</a></li>
+                <li><a onclick="filterByBrand('Oakley')">Oakley</a></li>
+                <li><a onclick="filterByBrand('Vogue Eyewear')">Vogue Eyewear</a></li>
+                <li><a onclick="filterByBrand('Nano Vista')">Nano Vista (Niños)</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="nav-item"><a class="nav-link" onclick="filterBySubType('Sol')">Lentes de Sol</a></div>
+        <div class="nav-item"><a class="nav-link" href="#cotizador-cristales">Cristales y Fórmula</a></div>
+        <div class="nav-item"><a class="nav-link" onclick="quickFilter('Contactologia', '', '')">Lentes de Contacto</a></div>
+        <div class="nav-item"><a class="nav-link" onclick="quickFilter('Accesorios', '', '')">Accesorios</a></div>
+        <div class="nav-item"><a class="nav-link" onclick="quickFilter('Servicios', '', '')">Examen Visual y Taller</a></div>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Tu Salud Visual con Tecnología de Precisión</h1>
+    <p>Selecciona tu montura ideal, configura tus cristales según tu fórmula médica y envía tu pedido directamente a nuestro equipo por WhatsApp.</p>
+    <div class="hero-btns">
+      <a href="#cotizador-cristales" class="btn-primary">Cotizar Cristales con Fórmula</a>
+      <button class="btn-outline" onclick="quickFilter('Servicios', '', '')">Agendar Examen Visual</button>
+    </div>
+  </section>
+
+  <main class="container">
+    <aside class="filters">
+      <div class="filter-header">
+        <h3>Filtros</h3>
+        <button class="btn-reset" onclick="resetFilters()">Limpiar</button>
+      </div>
+      <div class="filter-group">
+        <label>Departamento</label>
+        <select id="filterDept" onchange="renderProducts()">
+          <option value="all">Todos los Departamentos</option>
+          <option value="Monturas">Monturas (Oftálmicas y Sol)</option>
+          <option value="Cristales">Cristales Oftálmicos</option>
+          <option value="Contactologia">Lentes de Contacto</option>
+          <option value="Accesorios">Accesorios e Insumos</option>
+          <option value="Servicios">Servicios Clínicos y Taller</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Género / Público</label>
+        <select id="filterGender" onchange="renderProducts()">
+          <option value="">Todos</option>
+          <option value="Mujer">Mujer</option>
+          <option value="Hombre">Hombre</option>
+          <option value="Unisex">Unisex</option>
+          <option value="Infantil">Infantil</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Grupo de Edad</label>
+        <select id="filterAge" onchange="renderProducts()">
+          <option value="">Todas las edades</option>
+          <option value="Niños">Niños (3-11 años)</option>
+          <option value="Jóvenes">Jóvenes (12-17 años)</option>
+          <option value="Adultos">Adultos (18+ años)</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Marca</label>
+        <select id="filterBrand" onchange="renderProducts()">
+          <option value="">Todas las marcas</option>
+          <option value="Ray-Ban">Ray-Ban</option>
+          <option value="Carolina Herrera">Carolina Herrera</option>
+          <option value="Oakley">Oakley</option>
+          <option value="Vogue Eyewear">Vogue Eyewear</option>
+          <option value="Nano Vista">Nano Vista</option>
+          <option value="Johnson & Johnson">Johnson & Johnson</option>
+          <option value="Alcon">Alcon</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Tipo de Montura</label>
+        <select id="filterFrameType" onchange="renderProducts()">
+          <option value="">Todos los tipos</option>
+          <option value="Aro completo">Aro completo</option>
+          <option value="Semiaire">Semiaire / Ranurada</option>
+          <option value="Al aire">Al aire / Perforada</option>
+          <option value="Clip-On">Clip-On</option>
+        </select>
+      </div>
+    </aside>
+
+    <section>
+      <div class="catalog-header">
+        <h2 id="catalogTitle">Catálogo General</h2>
+        <span id="resultsCount" style="color: var(--muted); font-size: 0.9rem;"></span>
+      </div>
+      <div class="dept-tabs">
+        <button class="tab-btn active" onclick="setTab(this, 'all')">Todos</button>
+        <button class="tab-btn" onclick="setTab(this, 'Monturas')">Monturas</button>
+        <button class="tab-btn" onclick="setTab(this, 'Cristales')">Cristales</button>
+        <button class="tab-btn" onclick="setTab(this, 'Contactologia')">Contactología</button>
+        <button class="tab-btn" onclick="setTab(this, 'Accesorios')">Accesorios</button>
+        <button class="tab-btn" onclick="setTab(this, 'Servicios')">Servicios</button>
+      </div>
+      <div class="products-grid" id="productsGrid"></div>
+    </section>
+  </main>
+
+  <section class="rx-section" id="cotizador-cristales">
+    <div class="rx-card">
+      <h2>🔬 Cotizador de Cristales Oftálmicos según Fórmula Médica</h2>
+      <p style="color: var(--muted); font-size: 0.9rem;">Ingresa los valores de tu récipe optométrico para calcular el índice de refracción recomendado y añadir el par de cristales al carrito.</p>
+
+      <div class="rx-grid">
+        <div class="rx-box">
+          <h4>Ojo Derecho (OD)</h4>
+          <div class="rx-row">
+            <div><label>Esfera (SPH)</label><input type="number" id="odSph" value="-1.50" step="0.25" onchange="evaluateRx()" /></div>
+            <div><label>Cilindro (CYL)</label><input type="number" id="odCyl" value="-0.50" step="0.25" onchange="evaluateRx()" /></div>
+            <div><label>Eje (AXIS)</label><input type="number" id="odAxis" value="180" min="0" max="180" /></div>
+            <div><label>Adición (ADD)</label><input type="number" id="odAdd" value="0.00" step="0.25" onchange="evaluateRx()" /></div>
+          </div>
+        </div>
+
+        <div class="rx-box">
+          <h4>Ojo Izquierdo (OI)</h4>
+          <div class="rx-row">
+            <div><label>Esfera (SPH)</label><input type="number" id="oiSph" value="-1.75" step="0.25" onchange="evaluateRx()" /></div>
+            <div><label>Cilindro (CYL)</label><input type="number" id="oiCyl" value="0.00" step="0.25" onchange="evaluateRx()" /></div>
+            <div><label>Eje (AXIS)</label><input type="number" id="oiAxis" value="0" min="0" max="180" /></div>
+            <div><label>Adición (ADD)</label><input type="number" id="oiAdd" value="0.00" step="0.25" onchange="evaluateRx()" /></div>
+          </div>
+        </div>
+
+        <div class="rx-box">
+          <h4>Diseño y Material</h4>
+          <div style="display: grid; gap: 8px;">
+            <select id="rxDesign" onchange="evaluateRx()">
+              <option value="Monofocal|35|12">Monofocal CR-39 Estándar ($35)</option>
+              <option value="Policarbonato Blue Cut|65|24">Monofocal Policarbonato + Filtro Azul ($65)</option>
+              <option value="Alto Índice 1.67 Transitions|140|65">Monofocal Alto Índice 1.67 + Transitions ($140)</option>
+              <option value="Bifocal Flat-Top|45|16">Bifocal Flat-Top CR-39 ($45)</option>
+              <option value="Progresivo Digital Free-Form|160|72">Progresivo Digital Campo Amplio 1.60 ($160)</option>
+            </select>
+            <select id="rxExtra">
+              <option value="Sin tratamiento adicional|0|0">Sin tratamiento extra ($0)</option>
+              <option value="Antirreflejante Estándar|15|5">+ Antirreflejante Estándar (+$15)</option>
+              <option value="Filtro Luz Azul (Blue Cut)|25|9">+ Filtro Luz Azul Blue Cut (+$25)</option>
+              <option value="Fotocromático Fotogrey|35|14">+ Fotocromático Fotogrey (+$35)</option>
+              <option value="Transitions Original|75|35">+ Transitions Original (+$75)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="rx-box" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h4>Distancia Interpupilar (DIP)</h4>
+            <input type="number" id="rxDip" value="62" min="45" max="80" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px;" />
+          </div>
+          <button class="btn-primary" style="margin-top: 10px; width: 100%;" onclick="addCustomRxToCart()">
+            + Agregar Cristales al Carrito
+          </button>
+        </div>
+      </div>
+
+      <div class="rx-recommendation" id="rxAdvice">
+        💡 <strong>Recomendación Óptica:</strong> Para tu fórmula actual, el índice estándar <strong>1.50 o Policarbonato 1.59</strong> ofrece excelente estética y ligereza.
+      </div>
+    </div>
+  </section>
+
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart(false)"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-top">
+      <h3>🛒 Tu Pedido Óptico</h3>
+      <button class="close-cart" onclick="toggleCart(false)">&times;</button>
+    </div>
+
+    <div class="cart-items" id="cartItemsContainer"></div>
+
+    <div class="cart-footer">
+      <div class="customer-form">
+        <input type="text" id="custName" placeholder="Nombre y Apellido del Cliente *" required />
+        <input type="text" id="custPhone" placeholder="Teléfono / WhatsApp del Cliente" />
+        <input type="text" id="custCedula" placeholder="Cédula o RIF (Opcional para factura)" />
+        <select id="custDelivery">
+          <option value="Retiro en Tienda / Examen Visual">Retiro en Tienda / Agendar Examen</option>
+          <option value="Delivery Local">Delivery Local</option>
+          <option value="Envío Nacional (MRW / Zoom / Tealca)">Envío Nacional (MRW / Zoom / Tealca)</option>
+        </select>
+      </div>
+
+      <div class="cart-totals">
+        <div><span>Total USD:</span> <strong id="cartTotalUsd">$0.00</strong></div>
+        <div><span>Total Referencial Bs.:</span> <strong id="cartTotalBs">0.00 Bs.</strong></div>
+      </div>
+
+      <button class="btn-whatsapp" onclick="sendWhatsAppReport()">
+        📲 Enviar Pedido a WhatsApp y Registrar Orden
+      </button>
+      <button class="btn-clear-cart" id="btnClearCart" onclick="clearCart()">
+        🗑️ Vaciar / Limpiar Carrito
+      </button>
+    </div>
+  </aside>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h4>Óptica Visión HD</h4>
+        <p>Especialistas en salud visual, monturas oftálmicas, cristales tallados digitales y contactología.</p>
+      </div>
+      <div>
+        <h4>Departamentos</h4>
+        <p>Monturas • Cristales • Lentes de Sol • Lentes de Contacto • Taller Óptico</p>
+      </div>
+      <div>
+        <h4>Gestión Interna</h4>
+        <p><a href="admin_optica.html" style="color:#38bdf8;">Ir al Panel Administrativo y Clínico (ERP) →</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // =========================================================================
+    // CONFIGURACIÓN DE WHATSAPP DE LA EMPRESA (COLOCA EL NÚMERO AQUÍ LUEGO)
+    // =========================================================================
+    const EMPRESA_WHATSAPP = "";
+
+    // Catálogo base por defecto (se sincroniza con admin_optica.html vía 'optica_shared_catalog')
+    const DEFAULT_CATALOG = [
+      { sku: "MON-RB-5154-2000", departamento: "Monturas", subtipo: "Oftálmico", marca: "Ray-Ban", nombre: "Clubmaster Optics RX5154", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "Wayfarer", tipo_montura: "Aro completo", material: "Combinado (Acetato/Metal)", medidas: "51-21-145 mm", stock: 12, costo_usd: 68.00, precio_usd: 145.00, icon: "👓" },
+      { sku: "MON-CH-0124-HAV", departamento: "Monturas", subtipo: "Oftálmico", marca: "Carolina Herrera", nombre: "HER 0124 Carey Dorado", genero: "Mujer", grupo_edad: "Adultos", forma_aro: "Cat-Eye", tipo_montura: "Aro completo", material: "Acetato", medidas: "53-16-140 mm", stock: 8, costo_usd: 75.00, precio_usd: 165.00, icon: "👓" },
+      { sku: "MON-KID-TR90-08", departamento: "Monturas", subtipo: "Oftálmico", marca: "Nano Vista", nombre: "Arcade Junior 3.0 Indestructible", genero: "Infantil", grupo_edad: "Niños", forma_aro: "Rectangular", tipo_montura: "Aro completo", material: "TR-90 Flexible + Banda", medidas: "46-16-125 mm", stock: 20, costo_usd: 22.00, precio_usd: 55.00, icon: "🧒" },
+      { sku: "MON-JUV-TIT-04", departamento: "Monturas", subtipo: "Oftálmico", marca: "Vogue Eyewear", nombre: "VO4177 Teen Edition Oro Rosa", genero: "Mujer", grupo_edad: "Jóvenes", forma_aro: "Redonda", tipo_montura: "Aro completo", material: "Metal Ligero", medidas: "49-18-135 mm", stock: 10, costo_usd: 42.00, precio_usd: 95.00, icon: "👓" },
+      { sku: "SOL-OAK-9102-01", departamento: "Monturas", subtipo: "Sol", marca: "Oakley", nombre: "Holbrook OO9102 Prizm Polarizado", genero: "Hombre", grupo_edad: "Adultos", forma_aro: "Cuadrada", tipo_montura: "Aro completo", material: "TR-90 / UV400", medidas: "57-18-137 mm", stock: 9, costo_usd: 82.00, precio_usd: 175.00, icon: "🕶️" },
+      { sku: "MON-SEM-TIT-11", departamento: "Monturas", subtipo: "Oftálmico", marca: "Silhouette / Titanium", nombre: "Executive Semiaire Ultraligero", genero: "Hombre", grupo_edad: "Adultos", forma_aro: "Rectangular", tipo_montura: "Semiaire", material: "Titanio", medidas: "54-17-140 mm", stock: 6, costo_usd: 55.00, precio_usd: 120.00, icon: "👓" },
+      { sku: "CRI-MONO-CR39-AR", departamento: "Cristales", subtipo: "Monofocal", marca: "Laboratorio Óptico", nombre: "Par Monofocal CR-39 + Antirreflejante", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Orgánico 1.50 + UV400", medidas: "Blanco 65/70 mm", stock: 40, costo_usd: 12.00, precio_usd: 35.00, icon: "🔬" },
+      { sku: "CRI-MONO-POLY-BC", departamento: "Cristales", subtipo: "Monofocal", marca: "Laboratorio Óptico", nombre: "Par Policarbonato + Filtro Luz Azul", genero: "Unisex", grupo_edad: "Jóvenes", forma_aro: "N/A", tipo_montura: "N/A", material: "Policarbonato 1.59 Irrompible", medidas: "Blanco 70/75 mm", stock: 30, costo_usd: 24.00, precio_usd: 65.00, icon: "💻" },
+      { sku: "CRI-PROG-FREE-160", departamento: "Cristales", subtipo: "Progresivo", marca: "Digital Free-Form", nombre: "Par Progresivo Campo Amplio 1.60 + AR", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Alto Índice 1.60", medidas: "Tallado Digital", stock: 20, costo_usd: 72.00, precio_usd: 160.00, icon: "👁️" },
+      { sku: "LC-ACU-OAS-6", departamento: "Contactologia", subtipo: "Esférico", marca: "Johnson & Johnson", nombre: "Acuvue Oasys Hydraclear (Caja x6)", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Hidrogel Silicona | BC 8.4/8.8", medidas: "DIA 14.0 mm | Quincenal", stock: 25, costo_usd: 24.00, precio_usd: 42.00, icon: "🔵" },
+      { sku: "LC-AIR-TOR-6", departamento: "Contactologia", subtipo: "Tórico", marca: "Alcon", nombre: "Air Optix Astigmatismo (Caja x6)", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Lotrafilcon B | BC 8.7", medidas: "DIA 14.5 mm | Mensual", stock: 15, costo_usd: 32.00, precio_usd: 55.00, icon: "🔵" },
+      { sku: "ACC-KIT-LIMP-01", departamento: "Accesorios", subtipo: "Limpieza", marca: "Visión Care", nombre: "Kit Spray Limpiador AR + Paño Microfibra", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "60ml Sin Alcohol", medidas: "Universal", stock: 60, costo_usd: 2.50, precio_usd: 7.00, icon: "🧴" },
+      { sku: "ACC-COR-DEP-03", departamento: "Accesorios", subtipo: "Sujetadores", marca: "Kids & Sport", nombre: "Cordón Sujetador Silicona Niños / Deporte", genero: "Infantil", grupo_edad: "Niños", forma_aro: "N/A", tipo_montura: "N/A", material: "Silicona Hipoalergénica", medidas: "Ajustable", stock: 35, costo_usd: 1.50, precio_usd: 5.00, icon: "🎗️" },
+      { sku: "SRV-EXA-01", departamento: "Servicios", subtipo: "Consultorio", marca: "Optometría Clínica", nombre: "Consulta Optométrica Integral + Agudeza Visual", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Duración: 30 min", medidas: "Gratis al comprar lentes", stock: 99, costo_usd: 0.00, precio_usd: 15.00, icon: "🩺" },
+      { sku: "TAL-MON-01", departamento: "Servicios", subtipo: "Taller Óptico", marca: "Laboratorio", nombre: "Servicio de Biselado y Montaje Computarizado", genero: "Unisex", grupo_edad: "Adultos", forma_aro: "N/A", tipo_montura: "N/A", material: "Entrega 24h", medidas: "Aro Completo", stock: 99, costo_usd: 3.00, precio_usd: 10.00, icon: "⚙️" }
+    ];
+
+    function getCatalog() {
+      const saved = localStorage.getItem("optica_shared_catalog");
+      if (saved) return JSON.parse(saved);
+      localStorage.setItem("optica_shared_catalog", JSON.stringify(DEFAULT_CATALOG));
+      return DEFAULT_CATALOG;
+    }
+
+    let cart = JSON.parse(localStorage.getItem("optica_cart")) || [];
+
+    function initRate() {
+      const sharedRate = localStorage.getItem("optica_shared_rate");
+      if (sharedRate) {
+        document.getElementById("exchangeRate").value = parseFloat(sharedRate).toFixed(2);
+      }
+    }
+
+    function syncRateFromStore() {
+      const val = parseFloat(document.getElementById("exchangeRate").value) || 45.50;
+      localStorage.setItem("optica_shared_rate", val.toString());
+      renderProducts();
+      renderCart();
+    }
+
+    function getRate() {
+      return parseFloat(document.getElementById("exchangeRate").value) || 45.50;
+    }
+
+    function renderProducts() {
+      const catalog = getCatalog();
+      const grid = document.getElementById("productsGrid");
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const dept = document.getElementById("filterDept").value;
+      const gender = document.getElementById("filterGender").value;
+      const age = document.getElementById("filterAge").value;
+      const brand = document.getElementById("filterBrand").value;
+      const frameType = document.getElementById("filterFrameType").value;
+      const rate = getRate();
+
+      const filtered = catalog.filter(item => {
+        const matchSearch =
+          item.nombre.toLowerCase().includes(search) ||
+          item.marca.toLowerCase().includes(search) ||
+          item.sku.toLowerCase().includes(search) ||
+          item.grupo_edad.toLowerCase().includes(search) ||
+          item.subtipo.toLowerCase().includes(search);
+
+        const matchDept = dept === "all" || item.departamento === dept;
+        const matchGender = !gender || item.genero === gender;
+        const matchAge = !age || item.grupo_edad === age;
+        const matchBrand = !brand || item.marca.includes(brand);
+        const matchFrame = !frameType || item.tipo_montura.includes(frameType);
+
+        return matchSearch && matchDept && matchGender && matchAge && matchBrand && matchFrame;
+      });
+
+      document.getElementById("resultsCount").textContent = `${filtered.length} producto(s) encontrados`;
+
+      grid.innerHTML = filtered.map(p => {
+        const priceBs = (p.precio_usd * rate).toFixed(2);
+        const outOfStock = p.stock <= 0;
+        return `
+          <div class="product-card">
+            <div class="card-img">
+              <span class="badge-dept">${p.departamento}</span>
+              <span class="badge-age">${p.grupo_edad}</span>
+              <div style="font-size: 3rem;">${p.icon || '👓'}</div>
+              <small style="color: var(--muted); margin-top: 6px;">SKU: ${p.sku}</small>
+            </div>
+            <div class="card-body">
+              <div class="card-brand">${p.marca} • ${p.genero}</div>
+              <div class="card-title">${p.nombre}</div>
+              <div class="card-specs">
+                <div><strong>Tipo:</strong> ${p.subtipo} ${p.tipo_montura !== 'N/A' ? '(' + p.tipo_montura + ')' : ''}</div>
+                <div><strong>Spec:</strong> ${p.material}</div>
+                <div><strong>Medida:</strong> ${p.medidas} | <strong>Stock:</strong> ${p.stock}</div>
+              </div>
+              <div class="card-price-row">
+                <span class="price-usd">$${p.precio_usd.toFixed(2)}</span>
+                <span class="price-bs">${priceBs} Bs.</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn-add" ${outOfStock ? 'disabled' : ''} onclick="addToCart('${p.sku}')">
+                  ${outOfStock ? 'Agotado' : '+ Agregar al Carrito'}
+                </button>
+                ${p.departamento === 'Monturas' ? `<a href="#cotizador-cristales" class="btn-rx" style="text-align:center; text-decoration:none;">+ Añadir Fórmula de Cristales</a>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function quickFilter(dept, gender, age) {
+      document.getElementById("filterDept").value = dept;
+      document.getElementById("filterGender").value = gender;
+      document.getElementById("filterAge").value = age;
+      document.getElementById("filterBrand").value = "";
+      document.getElementById("filterFrameType").value = "";
+      renderProducts();
+    }
+
+    function filterByFrameType(type) {
+      document.getElementById("filterDept").value = "Monturas";
+      document.getElementById("filterFrameType").value = type;
+      renderProducts();
+    }
+
+    function filterByBrand(brand) {
+      document.getElementById("filterBrand").value = brand;
+      renderProducts();
+    }
+
+    function filterBySubType(sub) {
+      document.getElementById("searchInput").value = sub;
+      renderProducts();
+    }
+
+    function setTab(btn, dept) {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("filterDept").value = dept;
+      renderProducts();
+    }
+
+    function resetFilters() {
+      document.getElementById("searchInput").value = "";
+      document.getElementById("filterDept").value = "all";
+      document.getElementById("filterGender").value = "";
+      document.getElementById("filterAge").value = "";
+      document.getElementById("filterBrand").value = "";
+      document.getElementById("filterFrameType").value = "";
+      renderProducts();
+    }
+
+    function evaluateRx() {
+      const odSph = Math.abs(parseFloat(document.getElementById("odSph").value) || 0);
+      const oiSph = Math.abs(parseFloat(document.getElementById("oiSph").value) || 0);
+      const maxSph = Math.max(odSph, oiSph);
+      const add = Math.max(parseFloat(document.getElementById("odAdd").value) || 0, parseFloat(document.getElementById("oiAdd").value) || 0);
+
+      let msg = "";
+      if (add > 0) {
+        msg = "💡 <strong>Adición detectada (Presbicia):</strong> Te recomendamos seleccionar <strong>Progresivo Digital Free-Form</strong> o <strong>Bifocal Flat-Top</strong>.";
+      } else if (maxSph <= 2.00) {
+        msg = "💡 <strong>Fórmula baja (0.00 a 2.00):</strong> El índice estándar <strong>1.50 (CR-39)</strong> o <strong>Policarbonato 1.59</strong> es ideal.";
+      } else if (maxSph <= 4.00) {
+        msg = "💡 <strong>Fórmula moderada (2.25 a 4.00):</strong> Recomendamos <strong>Policarbonato 1.59</strong> por ligereza y resistencia a impactos.";
+      } else {
+        msg = "💡 <strong>Fórmula alta (+4.25 o superior):</strong> Te sugerimos <strong>Alto Índice 1.67</strong> para reducir hasta un 35% el grosor del cristal.";
+      }
+      document.getElementById("rxAdvice").innerHTML = msg;
+    }
+
+    function addCustomRxToCart() {
+      const designVal = document.getElementById("rxDesign").value.split("|");
+      const extraVal = document.getElementById("rxExtra").value.split("|");
+      const totalUsd = parseFloat(designVal[1]) + parseFloat(extraVal[1]);
+      const totalCost = parseFloat(designVal[2]) + parseFloat(extraVal[2]);
+
+      const od = `OD: SPH ${document.getElementById("odSph").value} / CYL ${document.getElementById("odCyl").value} x ${document.getElementById("odAxis").value}° (ADD ${document.getElementById("odAdd").value})`;
+      const oi = `OI: SPH ${document.getElementById("oiSph").value} / CYL ${document.getElementById("oiCyl").value} x ${document.getElementById("oiAxis").value}° (ADD ${document.getElementById("oiAdd").value})`;
+      const dip = `DIP: ${document.getElementById("rxDip").value}mm`;
+
+      const customSku = "RX-" + Date.now().toString().slice(-5);
+      cart.push({
+        sku: customSku,
+        nombre: `Cristales ${designVal[0]} (${extraVal[0]})`,
+        detalle: `${od} | ${oi} | ${dip}`,
+        rx_od: od,
+        rx_oi: oi,
+        precio_usd: totalUsd,
+        costo_usd: totalCost,
+        qty: 1
+      });
+
+      saveAndRenderCart();
+      toggleCart(true);
+    }
+
+    function addToCart(sku) {
+      const catalog = getCatalog();
+      const prod = catalog.find(p => p.sku === sku);
+      if (!prod || prod.stock <= 0) return;
+
+      const existing = cart.find(c => c.sku === sku);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({
+          sku: prod.sku,
+          nombre: `${prod.marca} - ${prod.nombre}`,
+          detalle: `${prod.departamento} | ${prod.subtipo}`,
+          precio_usd: prod.precio_usd,
+          costo_usd: prod.costo_usd || 0,
+          qty: 1
+        });
+      }
+      saveAndRenderCart();
+      toggleCart(true);
+    }
+
+    function updateQty(index, delta) {
+      cart[index].qty += delta;
+      if (cart[index].qty <= 0) cart.splice(index, 1);
+      saveAndRenderCart();
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      saveAndRenderCart();
+    }
+
+    function clearCart() {
+      if (cart.length === 0) return;
+      if (confirm("¿Estás seguro de que deseas vaciar todos los productos del carrito?")) {
+        cart = [];
+        saveAndRenderCart();
+      }
+    }
+
+    function saveAndRenderCart() {
+      localStorage.setItem("optica_cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById("cartItemsContainer");
+      const rate = getRate();
+      let totalUsd = 0;
+      let totalItems = 0;
+
+      if (cart.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color: var(--muted); margin-top: 40px;">Tu carrito está vacío. Selecciona monturas, cristales o servicios del catálogo.</p>`;
+      } else {
+        container.innerHTML = cart.map((item, idx) => {
+          const subtotal = item.precio_usd * item.qty;
+          totalUsd += subtotal;
+          totalItems += item.qty;
+          return `
+            <div class="cart-item">
+              <div class="cart-item-info">
+                <h5>${item.nombre}</h5>
+                <p>SKU: ${item.sku}</p>
+                <p>${item.detalle}</p>
+                <div class="qty-controls">
+                  <button class="qty-btn" onclick="updateQty(${idx}, -1)">-</button>
+                  <span>${item.qty}</span>
+                  <button class="qty-btn" onclick="updateQty(${idx}, 1)">+</button>
+                  <button class="btn-remove-item" onclick="removeItem(${idx})">Eliminar</button>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <strong>$${subtotal.toFixed(2)}</strong><br/>
+                <small style="color: var(--muted);">${(subtotal * rate).toFixed(2)} Bs.</small>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      document.getElementById("cartCount").textContent = totalItems;
+      document.getElementById("cartTotalUsd").textContent = `$${totalUsd.toFixed(2)}`;
+      document.getElementById("cartTotalBs").textContent = `${(totalUsd * rate).toFixed(2)} Bs.`;
+      const clearBtn = document.getElementById("btnClearCart");
+      if (clearBtn) clearBtn.style.display = cart.length > 0 ? "block" : "none";
+    }
+
+    function toggleCart(open) {
+      const drawer = document.getElementById("cartDrawer");
+      const overlay = document.getElementById("cartOverlay");
+      drawer.classList.toggle("open", open);
+      overlay.style.display = open ? "block" : "none";
+    }
+
+    // =========================================================================
+    // ENVÍO A WHATSAPP + REGISTRO AUTOMÁTICO EN COLA DEL ERP ADMINISTRATIVO
+    // =========================================================================
+    function sendWhatsAppReport() {
+      if (cart.length === 0) {
+        alert("Agrega al menos un producto o servicio al carrito antes de enviar el reporte.");
+        return;
+      }
+
+      const custName = document.getElementById("custName").value.trim() || "Cliente Web";
+      const custPhone = document.getElementById("custPhone").value.trim() || "No indicado";
+      const custCedula = document.getElementById("custCedula").value.trim() || "N/A";
+      const custDelivery = document.getElementById("custDelivery").value;
+      const rate = getRate();
+      const webOrderCode = "WEB-" + Date.now().toString().slice(-6);
+
+      let totalUsd = 0;
+      cart.forEach(item => totalUsd += item.precio_usd * item.qty);
+
+      // Guardar pedido en la cola compartida 'optica_web_orders' para admin_optica.html
+      const webOrders = JSON.parse(localStorage.getItem("optica_web_orders")) || [];
+      webOrders.unshift({
+        webOrderCode,
+        date: new Date().toISOString().slice(0, 10),
+        customer: { name: custName, phone: custPhone, cedula: custCedula, delivery: custDelivery },
+        items: JSON.parse(JSON.stringify(cart)),
+        totalUsd,
+        rate,
+        status: "Pendiente por Procesar"
+      });
+      localStorage.setItem("optica_web_orders", JSON.stringify(webOrders));
+
+      let lines = [
+        `👓 *PEDIDO WEB #${webOrderCode} - ÓPTICA VISIÓN HD*`,
+        "----------------------------------------",
+        `👤 *Cliente:* ${custName}`,
+        `🪪 *Cédula/RIF:* ${custCedula}`,
+        `📞 *Teléfono:* ${custPhone}`,
+        `🚚 *Modalidad:* ${custDelivery}`,
+        `💱 *Tasa Ref.:* ${rate.toFixed(2)} Bs./USD`,
+        "----------------------------------------",
+        "*DETALLE DE PRODUCTOS SELECCIONADOS:*"
+      ];
+
+      cart.forEach((item, i) => {
+        const sub = item.precio_usd * item.qty;
+        lines.push(`${i + 1}. *${item.nombre}* (x${item.qty})`);
+        lines.push(`   • SKU: ${item.sku}`);
+        lines.push(`   • Detalle: ${item.detalle}`);
+        lines.push(`   • Subtotal: $${sub.toFixed(2)} (${(sub * rate).toFixed(2)} Bs.)`);
+      });
+
+      lines.push("----------------------------------------");
+      lines.push(`💰 *TOTAL USD:* $${totalUsd.toFixed(2)}`);
+      lines.push(`💵 *TOTAL BS.:* ${(totalUsd * rate).toFixed(2)} Bs.`);
+      lines.push("----------------------------------------");
+      lines.push("Pedido registrado en sistema. Por favor confirmar disponibilidad.");
+
+      const encodedText = encodeURIComponent(lines.join("\n"));
+      const targetNumber = EMPRESA_WHATSAPP.replace(/\D/g, "");
+      const waUrl = targetNumber
+        ? `https://wa.me/${targetNumber}?text=${encodedText}`
+        : `https://api.whatsapp.com/send?text=${encodedText}`;
+
+      window.open(waUrl, "_blank");
+    }
+
+    // Escuchar cambios hechos desde admin_optica.html en tiempo real
+    window.addEventListener("storage", () => {
+      initRate();
+      renderProducts();
+      renderCart();
+    });
+
+    initRate();
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+</html>
